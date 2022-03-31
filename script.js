@@ -141,7 +141,6 @@ const crayolaColors = [
   { name: 'Pig Pink', hex: '#FDD7E4' },
   { name: 'Carmine', hex: '#E62E6B' },
   { name: 'Blush', hex: '#DB5079' },
-  { name: 'Tickle Me Pink', hex: '#FC80A5' },
   { name: 'Mauvelous', hex: '#F091A9' },
   { name: 'Salmon', hex: '#FF91A4' },
   { name: 'Middle Red Purple', hex: '#A55353' },
@@ -317,159 +316,126 @@ const crayolaColors = [
   { name: 'Smashed Pumpkin', hex: '#FF6D3A' },
   { name: 'Sunburnt Cyclops', hex: '#FF404C' },
   { name: 'Winter Wizard', hex: '#A0E6FF' },
+  { name: 'Almond', hex: '#EFDECD' },
   {
-    hex: '#EFDECD',
-    name: 'Almond',
-  },
-  {
-    hex: '#CD9575',
     name: 'Antique Brass',
-    rgb: '(205, 149, 117)',
+    hex: '#CD9575',
   },
   {
     hex: '#FDD9B5',
     name: 'Apricot',
-    rgb: '(253, 217, 181)',
   },
   {
     hex: '#78DBE2',
     name: 'Aquamarine',
-    rgb: '(120, 219, 226)',
   },
   {
     hex: '#87A96B',
     name: 'Asparagus',
-    rgb: '(135, 169, 107)',
   },
   {
     hex: '#FFA474',
     name: 'Atomic Tangerine',
-    rgb: '(255, 164, 116)',
   },
   {
     hex: '#FAE7B5',
     name: 'Banana Mania',
-    rgb: '(250, 231, 181)',
   },
   {
     hex: '#9F8170',
     name: 'Beaver',
-    rgb: '(159, 129, 112)',
   },
   {
     hex: '#FD7C6E',
     name: 'Bittersweet',
-    rgb: '(253, 124, 110)',
   },
   {
     hex: '#000000',
     name: 'Black',
-    rgb: '(0,0,0)',
   },
   {
     hex: '#ACE5EE',
     name: 'Blizzard Blue',
-    rgb: '(172, 229, 238)',
   },
   {
     hex: '#1F75FE',
     name: 'Blue',
-    rgb: '(31, 117, 254)',
   },
   {
     hex: '#A2A2D0',
     name: 'Blue Bell',
-    rgb: '(162, 162, 208)',
   },
   {
     hex: '#6699CC',
     name: 'Blue Gray',
-    rgb: '(102, 153, 204)',
   },
   {
     hex: '#0D98BA',
     name: 'Blue Green',
-    rgb: '(13, 152, 186)',
   },
   {
     hex: '#7366BD',
     name: 'Blue Violet',
-    rgb: '(115, 102, 189)',
   },
   {
     hex: '#DE5D83',
     name: 'Blush',
-    rgb: '(222, 93, 131)',
   },
   {
     hex: '#CB4154',
     name: 'Brick Red',
-    rgb: '(203, 65, 84)',
   },
   {
     hex: '#B4674D',
     name: 'Brown',
-    rgb: '(180, 103, 77)',
   },
   {
     hex: '#FF7F49',
     name: 'Burnt Orange',
-    rgb: '(255, 127, 73)',
   },
   {
     hex: '#EA7E5D',
     name: 'Burnt Sienna',
-    rgb: '(234, 126, 93)',
   },
   {
     hex: '#B0B7C6',
     name: 'Cadet Blue',
-    rgb: '(176, 183, 198)',
   },
   {
     hex: '#FFFF99',
     name: 'Canary',
-    rgb: '(255, 255, 153)',
   },
   {
     hex: '#1CD3A2',
     name: 'Caribbean Green',
-    rgb: '(28, 211, 162)',
   },
   {
     hex: '#FFAACC',
     name: 'Carnation Pink',
-    rgb: '(255, 170, 204)',
   },
   {
     hex: '#DD4492',
     name: 'Cerise',
-    rgb: '(221, 68, 146)',
   },
   {
     hex: '#1DACD6',
     name: 'Cerulean',
-    rgb: '(29, 172, 214)',
   },
   {
     hex: '#BC5D58',
     name: 'Chestnut',
-    rgb: '(188, 93, 88)',
   },
   {
     hex: '#DD9475',
     name: 'Copper',
-    rgb: '(221, 148, 117)',
   },
   {
     hex: '#9ACEEB',
     name: 'Cornflower',
-    rgb: '(154, 206, 235)',
   },
   {
     hex: '#FFBCD9',
     name: 'Cotton Candy',
-    rgb: '(255, 188, 217)',
   },
   {
     hex: '#FDDB6D',
@@ -999,6 +965,7 @@ function theAction() {
   color.style.backgroundColor = `${newColorHex}`;
   text.textContent = `${newColorName}`;
   subtext.textContent = `${newColorHex}`;
+  colorChange(newColorHex);
 }
 
 function moving(kee) {
@@ -1040,3 +1007,26 @@ left.addEventListener('click', function () {
   let kee = 'a';
   moving(kee);
 });
+
+//detects color bright or not
+function colorChange(c) {
+  var c = c.substring(1); // strip #
+  var rgb = parseInt(c, 16); // convert rrggbb to decimal
+  var r = (rgb >> 16) & 0xff; // extract red
+  var g = (rgb >> 8) & 0xff; // extract green
+  var b = (rgb >> 0) & 0xff; // extract blue
+
+  var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+
+  if (luma < 160) {
+    text.style.color = 'white';
+    text.style.opacity = '0.9';
+    subtext.style.color = 'white';
+    subtext.style.opacity = '0.9';
+  } else {
+    text.style.color = 'black';
+    text.style.opacity = '0.6';
+    subtext.style.color = 'black';
+    subtext.style.opacity = '0.6';
+  }
+}
